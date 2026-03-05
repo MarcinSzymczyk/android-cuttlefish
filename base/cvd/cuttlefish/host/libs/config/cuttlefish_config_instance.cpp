@@ -582,6 +582,14 @@ void CuttlefishConfig::MutableInstanceSpecific::set_memory_mb(int memory_mb) {
   (*Dictionary())[kMemoryMb] = memory_mb;
 }
 
+static constexpr char kPageSize[] = "page_size";
+UserPageSize CuttlefishConfig::InstanceSpecific::page_size() const {
+  return (*Dictionary())[kPageSize].asInt(); //TODO asint -> enum
+}
+void CuttlefishConfig::MutableInstanceSpecific::set_page_size(UserPageSize page_size) {
+  (*Dictionary())[kPageSize] = page_size;
+}
+
 static constexpr char kDdrMemMb[] = "ddr_mem_mb";
 int CuttlefishConfig::InstanceSpecific::ddr_mem_mb() const {
   return (*Dictionary())[kDdrMemMb].asInt();

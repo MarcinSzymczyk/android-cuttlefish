@@ -472,6 +472,7 @@ class CuttlefishConfig {
 
     std::string grpc_socket_path() const;
     int memory_mb() const;
+    UserPageSize page_size() const;
     int ddr_mem_mb() const;
     std::string setupwizard_mode() const;
     std::string userdata_format() const;
@@ -705,6 +706,7 @@ class CuttlefishConfig {
     void set_touchpad_configs(
         const std::vector<TouchpadConfig>& touchpad_configs);
     void set_memory_mb(int memory_mb);
+    void set_page_size(UserPageSize page_size);
     void set_ddr_mem_mb(int ddr_mem_mb);
     Result<void> set_setupwizard_mode(const std::string& mode);
     void set_userdata_format(const std::string& userdata_format);

@@ -48,6 +48,11 @@ std::vector<std::string> VmManagerKernelCmdline(
         // In the virt.dts file, look for a uart node
         vm_manager_cmdline.push_back("earlycon=pl011,mmio32,0x9000000");
       }
+
+      if (instance.page_size() != USER_PAGE_SIZE_UNSPECIFIED)
+      {
+        // TODO throw error
+      }
     } else if (target_arch == Arch::RiscV64) {
         vm_manager_cmdline.push_back("console=hvc0");
 
@@ -61,6 +66,11 @@ std::vector<std::string> VmManagerKernelCmdline(
         // The kernel defaults to Sv57. Disable 5-level paging to set the mode
         // to Sv48.
         vm_manager_cmdline.push_back("no5lvl");
+
+      if (instance.page_size() != USER_PAGE_SIZE_UNSPECIFIED)
+      {
+        // TODO throw error
+      }
     } else {
       if (instance.enable_kernel_log()) {
         vm_manager_cmdline.push_back("console=hvc0");
@@ -85,6 +95,15 @@ std::vector<std::string> VmManagerKernelCmdline(
       vm_manager_cmdline.push_back("ramoops.console_size=0x80000");
       vm_manager_cmdline.push_back("ramoops.record_size=0x80000");
       vm_manager_cmdline.push_back("ramoops.dump_oops=1");
+    }
+
+    if (instance.page_size() == USER_PAGE_SIZE_16KB)
+    {
+      vm_manager_cmdline.push_back("page_shift=14");
+      instance.set_gpu_mode(GuestSwiftshader);
+    } else if (instance.page_size() == USER_PAGE_SIZE_64KB) {
+      vm_manager_cmdline.push_back("page_shift=16");
+      instance.set_gpu_mode(GuestSwiftshader);
     }
   }
 
